@@ -2,6 +2,7 @@
 import { readFileSync } from 'fs'
 import find from 'lodash/find.js'
 import path from 'path'
+import cache from 'memory-cache'
 // import { saveToDB } from './utils.js'
 
 /**
@@ -28,13 +29,16 @@ const loadDBJSON = () => {
   DB = JSON.parse(readFileSync(path.join(process.cwd(), '/src/v1/database/db.json'), {
     encoding: 'utf-8'
   }))
+  cache.put('DB', DB, 300000)
 }
 
 loadDBJSON()
 
 const getRecordForWorkout = (workoutId) => {
   try {
-    const record = find(DB.records,
+    const cachedDB = cache.get('DB')
+    const records = cachedDB ? cachedDB.records : DB.records
+    const record = find(records,
       (record) => record.workout === workoutId
     )
     if (!record) {

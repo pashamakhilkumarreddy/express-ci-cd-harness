@@ -3,6 +3,7 @@ import { readFileSync } from 'fs'
 import find from 'lodash/find.js'
 import sortBy from 'lodash/sortBy.js'
 import path from 'path'
+import cache from 'memory-cache'
 import { saveToDB } from './utils.js'
 
 /**
@@ -50,6 +51,7 @@ const loadDBJSON = () => {
   DB = JSON.parse(readFileSync(path.join(process.cwd(), '/src/v1/database/db.json'), {
     encoding: 'utf-8'
   }))
+  cache.put('DB', DB, 300000)
 }
 
 loadDBJSON()
@@ -57,7 +59,8 @@ loadDBJSON()
 const getAllWorkouts = (filterParams) => {
   try {
     const { mode, page, limit, sort } = filterParams
-    const workouts = DB.workouts
+    const cachedDB = cache.get('DB')
+    const workouts = cachedDB ? cachedDB.workouts : DB.workouts
     if (sort) {
       sortBy(workouts, (w) => w.sort)
     }
@@ -72,7 +75,9 @@ const getAllWorkouts = (filterParams) => {
 
 const getWorkout = (workoutId) => {
   try {
-    const workout = find(DB.workouts,
+    const cachedDB = cache.get('DB')
+    const workouts = cachedDB ? cachedDB.workouts : DB.workouts
+    const workout = find(workouts,
       (workout) => workout.id === workoutId
     )
     if (!workout) {

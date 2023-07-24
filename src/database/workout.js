@@ -1,6 +1,7 @@
 /* eslint-disable no-throw-literal */
 import { readFileSync } from 'fs'
 import find from 'lodash/find.js'
+import sortBy from 'lodash/sortBy'
 import path from 'path'
 import { saveToDB } from './utils.js'
 
@@ -55,12 +56,15 @@ loadDBJSON()
 
 const getAllWorkouts = (filterParams) => {
   try {
-    const { mode } = filterParams
+    const { mode, page, limit, sort } = filterParams
     const workouts = DB.workouts
+    if (sort) {
+      sortBy(workouts, (w) => w.sort)
+    }
     if (mode) {
       return workouts.filter((workout) => workout.mode.toLowerCase().includes(mode))
     }
-    return workouts
+    return workouts.slice(limit * (page - 1), page * limit)
   } catch (err) {
     throw new Error(err?.message || err)
   }

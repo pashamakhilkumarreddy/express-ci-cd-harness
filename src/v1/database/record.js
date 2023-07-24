@@ -25,7 +25,7 @@ import path from 'path'
 let DB
 
 const loadDBJSON = () => {
-  DB = JSON.parse(readFileSync(path.join(process.cwd(), '/src/database/db.json'), {
+  DB = JSON.parse(readFileSync(path.join(process.cwd(), '/src/v1/database/db.json'), {
     encoding: 'utf-8'
   }))
 }

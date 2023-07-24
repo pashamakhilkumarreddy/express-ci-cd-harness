@@ -1,7 +1,7 @@
 /* eslint-disable no-throw-literal */
 import { readFileSync } from 'fs'
 import find from 'lodash/find.js'
-import sortBy from 'lodash/sortBy'
+import sortBy from 'lodash/sortBy.js'
 import path from 'path'
 import { saveToDB } from './utils.js'
 
@@ -47,7 +47,7 @@ import { saveToDB } from './utils.js'
 let DB
 
 const loadDBJSON = () => {
-  DB = JSON.parse(readFileSync(path.join(process.cwd(), '/src/database/db.json'), {
+  DB = JSON.parse(readFileSync(path.join(process.cwd(), '/src/v1/database/db.json'), {
     encoding: 'utf-8'
   }))
 }

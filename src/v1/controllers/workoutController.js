@@ -9,7 +9,7 @@ import services from '../services/index.js'
 const getAllWorkouts = (req, res) => {
   try {
     const { mode, page = 1, limit = 10, sort = 'createdAt' } = req.query
-    const workouts = services.getAllWorkouts({ mode, length, page, limit, sort })
+    const workouts = services.getAllWorkouts({ mode, page, limit, sort })
     return res.status(200).send({
       error: false,
       data: workouts,

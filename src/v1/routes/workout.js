@@ -6,7 +6,7 @@ import {
   updateWorkout,
   deleteWorkout,
   getRecordForWorkout
-} from '../../controllers/index.js'
+} from '../controllers/index.js'
 
 const router = Router()
 

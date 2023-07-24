@@ -1,8 +1,15 @@
 import services from '../services/index.js'
 
-const getAllWorkouts = (_, res) => {
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
+const getAllWorkouts = (req, res) => {
   try {
-    const workouts = services.getAllWorkouts()
+    const { mode, length, page = 1, limit = 10, sort = 'createdAt' } = req.query
+    const workouts = services.getAllWorkouts({ mode, length, page, limit, sort })
     return res.status(200).send({
       error: false,
       data: workouts,

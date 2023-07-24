@@ -4,6 +4,45 @@ import find from 'lodash/find.js'
 import path from 'path'
 import { saveToDB } from './utils.js'
 
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     workout:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           example: uCUsLgMmCjBDvWBX7RnOr
+ *         name:
+ *           type: string
+ *           example: Maverick
+ *         mode:
+ *           type: string
+ *           example: For Time
+ *         equipment:
+ *           type: array
+ *           items:
+ *             type: string
+ *           example: ["barbell", "rope"]
+ *         exercises:
+ *           type: array
+ *           items:
+ *             type: string
+ *           example: ["21 thrusters", "12 rope climbs, 15 ft", "15 thrusters", "9 rope climbs, 15 ft", "9 thrusters", "6 rope climbs, 15 ft"]
+ *         createdAt:
+ *           type: string
+ *           example: 6/21/2023, 6:01:23 PM
+ *         updatedAt:
+ *           type: string
+ *           example: 6/21/2023, 3:11:30 PM
+ *         trainerTips:
+ *           type: array
+ *           items:
+ *             type: string
+ *           example: ["Split the 21 thrusters as needed", "Try to do the 9 and 6 thrusters unbroken", "RX Weights: 115lb/75lb"]
+ */
+
 let DB
 
 const loadDBJSON = () => {
@@ -14,7 +53,18 @@ const loadDBJSON = () => {
 
 loadDBJSON()
 
-const getAllWorkouts = () => DB.workouts
+const getAllWorkouts = (filterParams) => {
+  try {
+    const { mode } = filterParams
+    const workouts = DB.workouts
+    if (mode) {
+      return workouts.filter((workout) => workout.mode.toLowerCase().includes(mode))
+    }
+    return workouts
+  } catch (err) {
+    throw new Error(err?.message || err)
+  }
+}
 
 const getWorkout = (workoutId) => {
   try {

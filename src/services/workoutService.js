@@ -3,9 +3,9 @@ import WorkoutDB from '../database/index.js'
 
 /* eslint-disable no-useless-catch */
 
-const getAllWorkouts = () => {
+const getAllWorkouts = (filterParams) => {
   try {
-    const allWorkouts = WorkoutDB.getAllWorkouts()
+    const allWorkouts = WorkoutDB.getAllWorkouts(filterParams)
     return allWorkouts
   } catch (err) {
     throw err

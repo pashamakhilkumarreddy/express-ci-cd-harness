@@ -9,6 +9,7 @@ import expressStatusMonitor from 'express-status-monitor'
 import tooBusy from 'node-toobusy'
 import config from './config/index.js'
 import v1Routes from './v1/routes/index.js'
+import v1SwaggerDocs from './v1/swagger.js'
 
 const app = express()
 
@@ -73,4 +74,5 @@ app.listen(PORT, HOST, () => {
   console.info(
     `App is up and running on ${HOST}:${PORT} in ${ENV} environment`
   )
+  v1SwaggerDocs(app)
 })

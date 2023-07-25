@@ -10,7 +10,7 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN npm ci --unsafe-perm --omit=optional && npm prune --production 
+RUN npm ci --unsafe-perm --omit=dev --no-optional && npm prune --production 
 
 FROM node:${NODE_VERSION}-alpine as production
 

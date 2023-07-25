@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: express-workout-app-deployment
+  labels:
+    app: workout-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: workout-app
+  template:
+    metadata:
+      labels:
+        app: workout-app
+    spec:
+      containers:
+        - name: express-workout-app-deployment
+          image: pashamakhilkumareddy/express-work-app
+          resources:
+            requests:
+              cpu: '256m'
+              memory: '64Mi'
+            limits:
+              cpu: '512m'
+              memory: '128Mi'
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000

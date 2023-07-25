@@ -3,3 +3,5 @@ node_modules/
 .nvmrc
 LICENSE
 .env*
+.eslintrc.cjs
+.eslintignore

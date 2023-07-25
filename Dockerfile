@@ -8,16 +8,14 @@ EXPOSE ${PORT}
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
-
-RUN npm i && npm prune --production 
-
 COPY . .
+
+RUN npm ci --unsafe-perm --omit=optional && npm prune --production 
 
 FROM node:${NODE_VERSION}-alpine as production
 
 WORKDIR /app
 
-COPY --from=build /app/ .
+COPY --from=build /usr/src/app/ .
 
 CMD ["npm", "run", "prod"]
